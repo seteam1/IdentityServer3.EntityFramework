@@ -37,14 +37,14 @@ namespace Thinktecture.IdentityServer.EntityFramework
         public async Task<Thinktecture.IdentityServer.Core.Models.Client> FindClientByIdAsync(string clientId)
         {
             var client = await context.Clients
-                .Include("ClientSecrets")
-                .Include("RedirectUris")
-                .Include("PostLogoutRedirectUris")
-                .Include("ScopeRestrictions")
-                .Include("IdentityProviderRestrictions")
-                .Include("Claims")
-                .Include("CustomGrantTypeRestrictions")
-                .Include("AllowedCorsOrigins")
+                //.Include("ClientSecrets")
+                //.Include("RedirectUris")
+                //.Include("PostLogoutRedirectUris")
+                //.Include("ScopeRestrictions")
+                //.Include("IdentityProviderRestrictions")
+                //.Include("Claims")
+                //.Include("CustomGrantTypeRestrictions")
+                //.Include("AllowedCorsOrigins")
                 .SingleOrDefaultAsync(x => x.ClientId == clientId);
 
             Thinktecture.IdentityServer.Core.Models.Client model = client.ToModel();

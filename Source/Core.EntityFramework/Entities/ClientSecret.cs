@@ -33,7 +33,7 @@ namespace Thinktecture.IdentityServer.EntityFramework.Entities
         [StringLength(2000)]
         public virtual string Description { get; set; }
 
-        public virtual DateTimeOffset? Expiration { get; set; }
+        public virtual DateTime? Expiration { get; set; }
         
         public virtual Client Client { get; set; }
     }

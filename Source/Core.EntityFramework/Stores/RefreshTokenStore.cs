@@ -45,7 +45,7 @@ namespace Thinktecture.IdentityServer.EntityFramework
                 context.Tokens.Add(token);
             }
 
-            token.Expiry = DateTimeOffset.UtcNow.AddSeconds(value.LifeTime);
+            token.Expiry = DateTimeOffset.UtcNow.AddSeconds(value.LifeTime).DateTime;
             await context.SaveChangesAsync();
         }
     }
