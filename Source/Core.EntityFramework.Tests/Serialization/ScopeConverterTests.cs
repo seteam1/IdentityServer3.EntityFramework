@@ -1,23 +1,22 @@
 ﻿using System;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Security.Claims;
-using Thinktecture.IdentityServer.Core;
+using IdentityServer3.Core;
 using Newtonsoft.Json;
-using Thinktecture.IdentityServer.Core.Models;
-using Thinktecture.IdentityServer.EntityFramework.Serialization;
-using Thinktecture.IdentityServer.Core.Services;
-using Thinktecture.IdentityServer.Core.Services.InMemory;
+using IdentityServer3.Core.Models;
+using IdentityServer3.EntityFramework.Serialization;
+using IdentityServer3.Core.Services;
+using IdentityServer3.Core.Services.InMemory;
 using System.Threading.Tasks;
 using System.Threading;
 using System.Collections.Generic;
+using Xunit;
 
-namespace Thinktecture.IdentityServer.EntityFramework.Tests.Serialization
+namespace IdentityServer3.EntityFramework.Tests.Serialization
 {
-    [TestClass]
     public class ScopeConverterTests
     {
-        [TestMethod]
+        [Fact]
         public void CanSerializeAndDeserializeAScope()
         {
             var s1 = new Scope
@@ -48,7 +47,7 @@ namespace Thinktecture.IdentityServer.EntityFramework.Tests.Serialization
             var json = JsonConvert.SerializeObject(s1, settings);
 
             var result = JsonConvert.DeserializeObject<Scope>(json, settings);
-            Assert.AreSame(s1, result);
+            Assert.Same(s1, result);
         }
     }
 }

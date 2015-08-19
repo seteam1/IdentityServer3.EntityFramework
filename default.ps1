@@ -3,14 +3,14 @@ properties {
 	$src_directory = "$base_directory\source"
 	$output_directory = "$base_directory\build"
 	$dist_directory = "$base_directory\distribution"
-	$sln_file = "$src_directory\Thinktecture.IdentityServer3.EntityFramework.sln"
+	$sln_file = "$src_directory\IdentityServer3.EntityFramework.sln"
 	$target_config = "Release"
 	$framework_version = "v4.5"
 	$xunit_path = "$src_directory\packages\xunit.runners.1.9.2\tools\xunit.console.clr4.exe"
 	$nuget_path = "$src_directory\.nuget\nuget.exe"
 	
 	$buildNumber = 0;
-	$version = "1.2.1.0"
+	$version = "2.0.0.0"
 	$preRelease = $null
 }
 
@@ -46,7 +46,7 @@ task UpdateVersion {
 }
 
 task RunTests -depends Compile {
-	$project = "Thinktecture.IdentityServer.v3.EntityFramework.Tests"
+	$project = "IdentityServer3.EntityFramework.Tests"
 	mkdir $output_directory\xunit\$project -ea SilentlyContinue
 	.$xunit_path "$output_directory\$project.dll" /html "$output_directory\xunit\$project\index.html"
 }

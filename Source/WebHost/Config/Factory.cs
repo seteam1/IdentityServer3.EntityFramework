@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Thinktecture.IdentityServer.Core.Configuration;
-using Thinktecture.IdentityServer.EntityFramework;
-using Thinktecture.IdentityServer.Core.Models;
-using Thinktecture.IdentityServer.Core.Services;
+using IdentityServer3.Core.Configuration;
+using IdentityServer3.EntityFramework;
+using IdentityServer3.Core.Models;
+using IdentityServer3.Core.Services;
 
-namespace SelfHost.Config
+namespace WebHost.Config
 {
     class Factory
     {
@@ -31,10 +31,7 @@ namespace SelfHost.Config
             factory.RegisterConfigurationServices(efConfig);
             factory.RegisterOperationalServices(efConfig);
 
-            factory.CorsPolicyService = new ClientConfigurationCorsPolicyRegistration(efConfig);
-
-            var userService = new Thinktecture.IdentityServer.Core.Services.InMemory.InMemoryUserService(Users.Get());
-            factory.UserService = new Registration<IUserService>(resolver => userService);
+            factory.UseInMemoryUsers(Users.Get());
 
             return factory;
         }

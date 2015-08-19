@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 using System;
-using Thinktecture.IdentityServer.EntityFramework;
-using Thinktecture.IdentityServer.Core.Services;
+using IdentityServer3.EntityFramework;
+using IdentityServer3.Core.Services;
 
-namespace Thinktecture.IdentityServer.Core.Configuration
+namespace IdentityServer3.Core.Configuration
 {
     public static class IdentityServerServiceFactoryExtensions
     {
@@ -46,6 +46,7 @@ namespace Thinktecture.IdentityServer.Core.Configuration
 
             factory.Register(new Registration<ClientConfigurationDbContext>(resolver => new ClientConfigurationDbContext(options.ConnectionString, options.Schema)));
             factory.ClientStore = new Registration<IClientStore, ClientStore>();
+            factory.CorsPolicyService = new ClientConfigurationCorsPolicyRegistration(options);
         }
         
         public static void RegisterScopeStore(this IdentityServerServiceFactory factory, EntityFrameworkServiceOptions options)

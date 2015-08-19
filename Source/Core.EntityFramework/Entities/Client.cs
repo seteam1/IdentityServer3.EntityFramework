@@ -16,9 +16,10 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using Thinktecture.IdentityServer.Core.Models;
+using System.ComponentModel.DataAnnotations.Schema;
+using IdentityServer3.Core.Models;
 
-namespace Thinktecture.IdentityServer.EntityFramework.Entities
+namespace IdentityServer3.EntityFramework.Entities
 {
     public class Client
     {
@@ -29,6 +30,7 @@ namespace Thinktecture.IdentityServer.EntityFramework.Entities
 
         [Required]
         [StringLength(200)]
+        [Index(IsUnique=true)]
         public virtual string ClientId { get; set; }
 
         public virtual ICollection<ClientSecret> ClientSecrets { get; set; }
@@ -48,7 +50,9 @@ namespace Thinktecture.IdentityServer.EntityFramework.Entities
 
         public virtual ICollection<ClientRedirectUri> RedirectUris { get; set; }
         public virtual ICollection<ClientPostLogoutRedirectUri> PostLogoutRedirectUris { get; set; }
-        public virtual ICollection<ClientScopeRestriction> ScopeRestrictions { get; set; }
+
+        public virtual bool AllowAccessToAllScopes { get; set; }
+        public virtual ICollection<ClientScope> AllowedScopes { get; set; }
 
         // in seconds
         [Range(0, Int32.MaxValue)]
@@ -64,7 +68,7 @@ namespace Thinktecture.IdentityServer.EntityFramework.Entities
         public virtual int SlidingRefreshTokenLifetime { get; set; }
 
         public virtual TokenUsage RefreshTokenUsage { get; set; }
-        public virtual bool UpdateAccessTokenClaimsOnRefresh { get; set; }
+        public virtual bool UpdateAccessTokenOnRefresh { get; set; }
 
         public virtual TokenExpiration RefreshTokenExpiration { get; set; }
         
@@ -79,7 +83,9 @@ namespace Thinktecture.IdentityServer.EntityFramework.Entities
         public virtual bool AlwaysSendClientClaims { get; set; }
         public virtual bool PrefixClientClaims { get; set; }
 
-        public virtual ICollection<ClientGrantTypeRestriction> CustomGrantTypeRestrictions { get; set; }
+        public virtual bool AllowAccessToAllGrantTypes { get; set; }
+
+        public virtual ICollection<ClientCustomGrantType> AllowedCustomGrantTypes { get; set; }
         public virtual ICollection<ClientCorsOrigin> AllowedCorsOrigins { get; set; }
     }
 }

@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 using System.Data.Entity;
-using Thinktecture.IdentityServer.EntityFramework.Entities;
+using IdentityServer3.EntityFramework.Entities;
 
-namespace Thinktecture.IdentityServer.EntityFramework
+namespace IdentityServer3.EntityFramework
 {
     public class OperationalDbContext : BaseDbContext
     {
@@ -34,7 +34,7 @@ namespace Thinktecture.IdentityServer.EntityFramework
             : base(connectionString, schema)
         {
         }
-        
+
         public DbSet<Consent> Consents { get; set; }
         public DbSet<Token> Tokens { get; set; }
 

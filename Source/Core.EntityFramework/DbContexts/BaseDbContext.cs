@@ -14,11 +14,14 @@
  * limitations under the License.
  */
 using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data.Entity;
+using System.Data.Entity.Core.Objects.DataClasses;
 using System.Data.Entity.Validation;
 using System.Linq;
 
-namespace Thinktecture.IdentityServer.EntityFramework
+namespace IdentityServer3.EntityFramework
 {
     public class BaseDbContext : DbContext
     {
@@ -33,7 +36,11 @@ namespace Thinktecture.IdentityServer.EntityFramework
             : base(connectionString)
         {
             this.Schema = schema;
+            
+            ConfigureChildCollections();
         }
+
+        protected virtual void ConfigureChildCollections() { }
 
         public override int SaveChanges()
         {
@@ -80,6 +87,26 @@ namespace Thinktecture.IdentityServer.EntityFramework
 
                 // Throw a new DbEntityValidationException with the improved exception message.
                 throw new DbEntityValidationException(exceptionMessage, ex.EntityValidationErrors);
+            }
+        }
+
+        protected void RegisterDeleteOnRemove<TChild>(ICollection<TChild> collection)
+            where TChild : class
+        {
+            var entities = collection as EntityCollection<TChild>;
+            if (entities != null)
+            {
+                entities.AssociationChanged += delegate(object sender, CollectionChangeEventArgs e)
+                {
+                    if (e.Action == CollectionChangeAction.Remove)
+                    {
+                        var entity = e.Element as TChild;
+                        if (entity != null)
+                        {
+                            this.Entry<TChild>(entity).State = EntityState.Deleted;
+                        }
+                    }
+                };
             }
         }
     }

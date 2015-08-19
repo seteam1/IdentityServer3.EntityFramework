@@ -13,12 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+using IdentityServer3.Core;
 using Newtonsoft.Json;
 using System;
 using System.Linq;
 using System.Security.Claims;
 
-namespace Thinktecture.IdentityServer.EntityFramework.Serialization
+namespace IdentityServer3.EntityFramework.Serialization
 {
     public class ClaimsPrincipalLite
     {
@@ -42,8 +43,10 @@ namespace Thinktecture.IdentityServer.EntityFramework.Serialization
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
             var source = serializer.Deserialize<ClaimsPrincipalLite>(reader);
+            if (source == null) return null;
+            
             var claims = source.Claims.Select(x => new Claim(x.Type, x.Value));
-            var id = new ClaimsIdentity(claims, source.AuthenticationType);
+            var id = new ClaimsIdentity(claims, source.AuthenticationType, Constants.ClaimTypes.Name, Constants.ClaimTypes.Role);
             var target = new ClaimsPrincipal(id);
             return target;
         }

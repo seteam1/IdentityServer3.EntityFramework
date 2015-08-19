@@ -14,9 +14,10 @@
  * limitations under the License.
  */
 using System.Data.Entity;
-using Thinktecture.IdentityServer.EntityFramework.Entities;
+using IdentityServer3.EntityFramework.Entities;
+using System.Collections.Specialized;
 
-namespace Thinktecture.IdentityServer.EntityFramework
+namespace IdentityServer3.EntityFramework
 {
     public class ScopeConfigurationDbContext : BaseDbContext
     {
@@ -33,6 +34,21 @@ namespace Thinktecture.IdentityServer.EntityFramework
         public ScopeConfigurationDbContext(string connectionString, string schema)
             : base(connectionString, schema)
         {
+        }
+
+        protected override void ConfigureChildCollections()
+        {
+            this.Set<Scope>().Local.CollectionChanged +=
+                delegate(object sender, NotifyCollectionChangedEventArgs e)
+                {
+                    if (e.Action == NotifyCollectionChangedAction.Add)
+                    {
+                        foreach (Scope item in e.NewItems)
+                        {
+                            RegisterDeleteOnRemove(item.ScopeClaims);
+                        }
+                    }
+                };
         }
 
         public DbSet<Scope> Scopes { get; set; }

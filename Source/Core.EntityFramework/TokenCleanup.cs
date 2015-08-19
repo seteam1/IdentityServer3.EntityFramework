@@ -20,9 +20,9 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Thinktecture.IdentityServer.Core.Logging;
+using IdentityServer3.EntityFramework.Logging;
 
-namespace Thinktecture.IdentityServer.EntityFramework
+namespace IdentityServer3.EntityFramework
 {
     public class TokenCleanup
     {
@@ -46,7 +46,7 @@ namespace Thinktecture.IdentityServer.EntityFramework
             if (source != null) throw new InvalidOperationException("Already started. Call Stop first.");
             
             source = new CancellationTokenSource();
-            Start(source.Token);
+            Task.Factory.StartNew(()=>Start(source.Token));
         }
         
         public void Stop()
